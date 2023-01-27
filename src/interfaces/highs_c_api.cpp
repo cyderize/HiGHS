@@ -413,6 +413,18 @@ HighsInt Highs_getModelStatus(const void* highs) {
   return (HighsInt)((Highs*)highs)->getModelStatus();
 }
 
+HighsInt Highs_modelStatusToString(const void* highs, HighsInt status,
+                                   char* buffer) {
+  auto status_string =
+      ((Highs*)highs)
+          ->modelStatusToString(static_cast<HighsModelStatus>(status));
+  if (buffer == nullptr) {
+    return (HighsInt)(status_string.size() + 1);
+  }
+  strcpy(buffer, status_string.c_str());
+  return kHighsStatusOk;
+}
+
 HighsInt Highs_getDualRay(const void* highs, HighsInt* has_dual_ray,
                           double* dual_ray_value) {
   bool v;

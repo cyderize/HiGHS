@@ -703,6 +703,20 @@ HighsInt Highs_getBasis(const void* highs, HighsInt* col_status,
 HighsInt Highs_getModelStatus(const void* highs);
 
 /**
+ * Convert a model status to a string.
+ *
+ * @param highs     a pointer to the Highs instance
+ * @param option    the model status
+ * @param buffer    pointer to allocated memory to store the string, or `NULL`
+ *                  to get the required buffer size
+ *
+ * @returns the required size if the buffer is `NULL`, otherwise a
+ *          `kHighsStatus` constant indicating whether the call succeeded
+ */
+HighsInt Highs_modelStatusToString(const void* highs, HighsInt status,
+                                   char* buffer);
+
+/**
  * Get an unbounded dual ray that is a certificate of primal infeasibility.
  *
  * @param highs             a pointer to the Highs instance
