@@ -82,6 +82,12 @@ const HighsInt kHighsBasisStatusUpper = 2;
 const HighsInt kHighsBasisStatusZero = 3;
 const HighsInt kHighsBasisStatusNonbasic = 4;
 
+const HighsInt kHighsLogTypeInfo = 1;
+const HighsInt kHighsLogTypeDetailed = 2;
+const HighsInt kHighsLogTypeVerbose = 3;
+const HighsInt kHighsLogTypekWarning = 4;
+const HighsInt kHighsLogTypeError = 5;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -254,6 +260,20 @@ const char* Highs_githash();
  * @returns the HiGHS compilation date
  */
 const char* Highs_compilation_date();
+
+/**
+ * Set the callback method and user data to use for logging.
+ *
+ * @param highs                 a pointer to the Highs instance
+ * @param log_callback          the callback function for logging
+ * @param log_callback_data     user-data passed to the callback function
+ *
+ * @returns a `kHighsStatus` constant indicating whether the call succeeded
+ */
+HighsInt Highs_setLogCallback(void* highs,
+                              void (*log_callback)(HighsInt, const char*,
+                                                   void*),
+                              void* log_callback_data);
 
 /**
  * Read a model from `filename` into `highs`.

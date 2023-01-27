@@ -179,6 +179,33 @@ HighsInt Highs_version_patch() { return highsVersionPatch(); }
 const char* Highs_githash() { return highsGithash().c_str(); }
 const char* Highs_compilation_date() { return highsCompilationDate().c_str(); }
 
+HighsInt Highs_setLogCallback(void* highs,
+                              void (*log_callback)(HighsInt, const char*,
+                                                   void*),
+                              void* log_callback_data) {
+  if (log_callback == nullptr) {
+    return (HighsInt)((Highs*)highs)
+        ->setLogCallback(nullptr, log_callback_data);
+  }
+
+  struct LogCallbackDataWrapper {
+    void (*log_callback)(HighsInt, const char*, void*) = nullptr;
+    void* log_callback_data = nullptr;
+  };
+
+  auto callback = [](HighsLogType log_type, const char* message, void* data) {
+    auto* wrapper = static_cast<LogCallbackDataWrapper*>(data);
+    wrapper->log_callback((HighsInt)log_type, message,
+                          wrapper->log_callback_data);
+  };
+
+  auto* data = new LogCallbackDataWrapper;
+  data->log_callback = log_callback;
+  data->log_callback_data = log_callback_data;
+
+  return (HighsInt)((Highs*)highs)->setLogCallback(callback, (void*)data);
+}
+
 HighsInt Highs_run(void* highs) { return (HighsInt)((Highs*)highs)->run(); }
 
 HighsInt Highs_readModel(void* highs, const char* filename) {
