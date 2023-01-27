@@ -390,6 +390,12 @@ HighsInt Highs_getSolution(const void* highs, double* col_value,
   return kHighsStatusOk;
 }
 
+HighsInt Highs_getSolutionValueValid(const void* highs, HighsInt* valid) {
+  const auto& solution = ((Highs*)highs)->getSolution();
+  *valid = (HighsInt)solution.value_valid;
+  return kHighsStatusOk;
+}
+
 HighsInt Highs_getBasis(const void* highs, HighsInt* col_status,
                         HighsInt* row_status) {
   HighsBasis basis = ((Highs*)highs)->getBasis();

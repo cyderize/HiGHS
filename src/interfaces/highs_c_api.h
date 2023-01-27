@@ -666,6 +666,16 @@ HighsInt Highs_getSolution(const void* highs, double* col_value,
                            double* row_dual);
 
 /**
+ * Get whether or not the solution values are valid.
+ *
+ * @param highs      a pointer to the Highs instance
+ * @param valid      a reference to an integer that the result will be stored in
+ *
+ * @returns a `kHighsStatus` constant indicating whether the call succeeded
+ */
+HighsInt Highs_getSolutionValueValid(const void* highs, HighsInt* valid);
+
+/**
  * Given a linear program with a basic feasible solution, get the column and row
  * basis statuses.
  *
